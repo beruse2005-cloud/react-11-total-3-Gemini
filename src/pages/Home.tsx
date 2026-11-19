@@ -112,7 +112,7 @@ const PROJECTS: ProjectItem[] = [
     },
     {
         id: "coin",
-        title: "코인래커",
+        title: "코인트래커",
         description: "실시간 가상화폐 시세 확인 및 정보 트래킹",
         path: "/coin",
         icon: <FaCoins size={26} />,

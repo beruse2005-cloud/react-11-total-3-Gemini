@@ -3,7 +3,6 @@ import { createBrowserRouter, type RouteObject } from "react-router";
 import MainLayout from "../layouts/MainLayout.tsx";
 import AuthLayout from "../layouts/AuthLayout.tsx";
 import Home from "../pages/Home.tsx";
-import About from "../pages/About.tsx";
 import TodoPage from "../pages/TodoPage.tsx";
 import CoinPage from "../pages/CoinPage.tsx";
 import LogIn from "../pages/auth/LogIn.tsx";
@@ -64,7 +63,6 @@ const AppRouter = () => {
                         />
                     ),
                 },
-                { path: "about", element: <About /> },
             ],
         },
     ];

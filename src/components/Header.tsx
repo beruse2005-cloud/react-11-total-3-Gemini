@@ -74,6 +74,25 @@ const NavItem = styled(NavLink)`
     }
 `;
 
+// 우측 영역 (로그인, 회원가입 및 테마 버튼 배치용)
+const RightGroup = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+`;
+
+// 로그인, 회원가입 이동용 링크 스타일
+const ActionLink = styled(Link)`
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: ${props => props.theme.color.subText};
+
+    &:hover {
+        color: ${props => props.theme.color.primary};
+    }
+`;
+
 // 우측 다크/라이트 모드 전환 버튼
 const ThemeButton = styled.button`
     display: inline-flex;
@@ -132,14 +151,18 @@ function Header() {
                 </NavItem>
             </NavList>
 
-            <ThemeButton type="button" onClick={themeContext.toggleTheme}>
-                {isDark ? (
-                    <FaSun size={13} color="#eab308" />
-                ) : (
-                    <FaMoon size={13} color="#eab308" />
-                )}
-                <span>{isDark ? "라이트" : "다크"}</span>
-            </ThemeButton>
+            <RightGroup>
+                <ActionLink to="/auth/login">로그인</ActionLink>
+                <ActionLink to="/auth/signup">회원가입</ActionLink>
+                <ThemeButton type="button" onClick={themeContext.toggleTheme}>
+                    {isDark ? (
+                        <FaSun size={13} color="#eab308" />
+                    ) : (
+                        <FaMoon size={13} color="#eab308" />
+                    )}
+                    <span>{isDark ? "라이트" : "다크"}</span>
+                </ThemeButton>
+            </RightGroup>
         </Head>
     );
 }

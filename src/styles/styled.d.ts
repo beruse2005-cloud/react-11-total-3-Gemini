@@ -6,5 +6,7 @@ import { LightTheme } from "./theme.ts";
 type AppTheme = typeof LightTheme;
 
 declare module "styled-components" {
-    export interface DefaultTheme extends AppTheme {}
+    export interface DefaultTheme extends AppTheme {
+        _brand?: never;
+    }
 }

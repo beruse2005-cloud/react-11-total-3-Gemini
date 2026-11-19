@@ -17,7 +17,6 @@ src/
 │   ├── Home.tsx                # My Project Dashboard (6개 포트폴리오 카드)
 │   ├── TodoPage.tsx            # 할 일 추가/완료 토글/삭제 페이지
 │   ├── CoinPage.tsx            # Top 50 코인 목록 + 상세 지표 페이지
-│   ├── About.tsx               # 소개/게시판 연결용 기본 페이지
 │   └── auth/
 │       ├── LogIn.tsx           # 로그인 페이지
 │       └── SignUp.tsx          # 회원가입 페이지
