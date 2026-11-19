@@ -1,0 +1,27 @@
+src/
+├── contexts/
+│   └── theme/
+│       └── ThemeContext.tsx      # 다크/라이트 테마 전역 상태 컨텍스트
+├── styles/
+│   ├── styled.d.ts             # styled-components의 theme 타입 확장 선언
+│   ├── theme.ts                # 라이트/다크 모드 색상 토큰 정의
+│   ├── GlobalStyle.ts          # 전체 페이지 공통 리셋 및 기본 스타일
+│   └── styles.tsx              # 여러 페이지에서 같이 쓰는 공용 레이아웃 스타일
+├── components/
+│   ├── Header.tsx              # 상단 내비게이션 바 + 테마 전환 버튼
+│   └── Footer.tsx              # 하단 카피라이트 영역
+├── layouts/
+│   ├── MainLayout.tsx          # Header + 페이지(Outlet) + Footer 뼈대
+│   └── AuthLayout.tsx          # 로그인/회원가입 페이지용 중앙 정렬 뼈대
+├── pages/
+│   ├── Home.tsx                # My Project Dashboard (6개 포트폴리오 카드)
+│   ├── TodoPage.tsx            # 할 일 추가/완료 토글/삭제 페이지
+│   ├── CoinPage.tsx            # Top 50 코인 목록 + 상세 지표 페이지
+│   ├── About.tsx               # 소개/게시판 연결용 기본 페이지
+│   └── auth/
+│       ├── LogIn.tsx           # 로그인 페이지
+│       └── SignUp.tsx          # 회원가입 페이지
+├── router/
+│   └── AppRouter.tsx           # URL 경로와 페이지/레이아웃을 연결하는 라우터
+├── App.tsx                     # 테마 상태 관리 + Provider + RouterProvider 결합
+└── main.tsx                    # 실제 DOM(#root)에 React 앱을 마운트하는 진입점
