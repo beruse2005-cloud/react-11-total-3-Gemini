@@ -12,7 +12,16 @@ import {
     Status,
 } from "./styles/RocketList.ts";
 
-const DEFAULT_ROCKET_IMAGE = "https://images2.imgbox.com/3c/0e/T8iJcSN3_o.png";
+// 외부 imgbox 썸네일이 깨지거나 임시 불가일 때 쓸 깔끔한 기본 SVG 데이터 URI
+const DEFAULT_ROCKET_IMAGE =
+    "data:image/svg+xml;utf8," +
+    encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+            <rect width="300" height="300" fill="#eef2ff" />
+            <text x="150" y="145" text-anchor="middle" fill="#1d6feb" font-size="22" font-family="sans-serif" font-weight="bold">SPACEX</text>
+            <text x="150" y="175" text-anchor="middle" fill="#6b7280" font-size="14" font-family="sans-serif">Launch Patch</text>
+        </svg>
+    `);
 
 function RocketList() {
     const [list, setList] = useState<LaunchItem[]>([]);
@@ -60,17 +69,24 @@ function RocketList() {
             <Title>스페이스X 로켓 발사 목록</Title>
             <ListWrap>
                 {list.map(item => {
-                    const imageUrl = item.links.patch.small ?? DEFAULT_ROCKET_IMAGE;
+                    // imgbox 썸네일이 불안정할 수 있으므로 기본 로켓 이미지로 통일하거나 필요 시 item.links.patch.small 사용
+                    const imageUrl = DEFAULT_ROCKET_IMAGE;
                     const statusText =
                         item.success === true
                             ? "발사 성공"
                             : item.success === false
-                              ? "발사 실패"
-                              : "발사 예정/미정";
+                                ? "발사 실패"
+                                : "발사 예정/미정";
 
                     return (
                         <RocketCard to={`/rocket/${item.id}`} key={item.id}>
-                            <Thumbnail src={imageUrl} alt={item.name} />
+                            <Thumbnail
+                                src={imageUrl}
+                                alt={item.name}
+                                onError={e => {
+                                    e.currentTarget.src = DEFAULT_ROCKET_IMAGE;
+                                }}
+                            />
                             <Info>
                                 <Name>{item.name}</Name>
                                 <Status>{statusText}</Status>

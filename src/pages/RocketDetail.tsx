@@ -1,7 +1,6 @@
-// URL 파라미터 id로 특정 로켓 발사 상세 정보를 조회해 출력
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { type LaunchItem } from "../styles/rocket.ts";
+import { FALLBACK_LAUNCHES, type LaunchItem } from "../styles/rocket.ts";
 import {
     BackBtn,
     Badge,
@@ -16,7 +15,15 @@ import {
     Title,
 } from "./styles/RocketDetail.ts";
 
-const DEFAULT_ROCKET_IMAGE = "https://images2.imgbox.com/3c/0e/T8iJcSN3_o.png";
+const DEFAULT_ROCKET_IMAGE =
+    "data:image/svg+xml;utf8," +
+    encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+            <rect width="320" height="320" fill="#eef2ff" />
+            <text x="160" y="155" text-anchor="middle" fill="#1d6feb" font-size="24" font-family="sans-serif" font-weight="bold">SPACEX</text>
+            <text x="160" y="185" text-anchor="middle" fill="#6b7280" font-size="14" font-family="sans-serif">Mission Detail</text>
+        </svg>
+    `);
 
 function RocketDetail() {
     const { id } = useParams();
@@ -45,6 +52,8 @@ function RocketDetail() {
                 } else {
                     console.log(err);
                 }
+                const fallbackItem = FALLBACK_LAUNCHES.find(item => item.id === id) ?? null;
+                setLaunch(fallbackItem);
             })
             .finally(() => setLoading(false));
     }, [id]);
@@ -57,7 +66,7 @@ function RocketDetail() {
         return <StatusMessage>로켓 발사 정보를 찾을 수 없습니다.</StatusMessage>;
     }
 
-    const imageUrl = launch.links.patch.large ?? launch.links.patch.small ?? DEFAULT_ROCKET_IMAGE;
+    const imageUrl = DEFAULT_ROCKET_IMAGE;
 
     const statusLabel =
         launch.success === true
@@ -72,7 +81,13 @@ function RocketDetail() {
         <Container>
             <BackBtn to={"/rocket"}>&larr; 목록으로</BackBtn>
             <Content>
-                <DetailImage src={imageUrl} alt={launch.name} />
+                <DetailImage
+                    src={imageUrl}
+                    alt={launch.name}
+                    onError={e => {
+                        e.currentTarget.src = DEFAULT_ROCKET_IMAGE;
+                    }}
+                />
                 <Info>
                     <Title>{launch.name}</Title>
                     <Description>
