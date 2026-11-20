@@ -1,32 +1,16 @@
-// SpaceX 발사 목록을 불러와 카드로 보여주고 클릭 시 /rocket/:id 상세로 이동
 import { useEffect, useState } from "react";
+import { FALLBACK_LAUNCHES, type LaunchItem } from "../styles/rocket.ts";
 import {
-    Container,
-    Info,
-    ListWrap,
     LoadingBox,
-    Name,
-    RocketCard,
-    Status,
-    Thumbnail,
+    Container,
     Title,
+    ListWrap,
+    RocketCard,
+    Thumbnail,
+    Info,
+    Name,
+    Status,
 } from "./styles/RocketList.ts";
-
-
-export type LaunchItem = {
-    id: string;
-    name: string;
-    date_utc: string;
-    success: boolean | null;
-    details: string | null;
-    flight_number: number;
-    links: {
-        patch: {
-            small: string | null;
-            large: string | null;
-        };
-    };
-};
 
 const DEFAULT_ROCKET_IMAGE = "https://images2.imgbox.com/3c/0e/T8iJcSN3_o.png";
 
@@ -38,12 +22,15 @@ function RocketList() {
         fetch("https://api.spacexdata.com/v4/launches")
             .then(res => {
                 if (!res.ok) {
-                    throw new Error("로켓 발사 데이터를 불러오지 못했습니다.");
+                    throw new Error(`HTTP 오류: ${res.status}`);
                 }
                 return res.json();
             })
             .then((json: LaunchItem[]) => {
-                // 최신 flight_number 순으로 정렬해 상위 12개만 노출
+                if (!Array.isArray(json) || json.length === 0) {
+                    setList(FALLBACK_LAUNCHES);
+                    return;
+                }
                 const recentLaunches = [...json]
                     .sort((a, b) => b.flight_number - a.flight_number)
                     .slice(0, 12);
@@ -51,10 +38,11 @@ function RocketList() {
             })
             .catch((error: unknown) => {
                 if (error instanceof Error) {
-                    console.log(error.message);
+                    console.log("SpaceX API 호출 실패, 대체 데이터 사용:", error.message);
                 } else {
-                    console.log(error);
+                    console.log("SpaceX API 호출 실패, 대체 데이터 사용:", error);
                 }
+                setList(FALLBACK_LAUNCHES);
             })
             .finally(() => setLoading(false));
     }, []);

@@ -27,7 +27,7 @@ export type Book = {
 };
 
 type ApiResponse = {
-    items?: Book[];
+    items: Book[];
 };
 
 export const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -42,19 +42,15 @@ function BookSearchPage() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (!keyword) {
-            setList([]);
-            return;
-        }
+        if (!keyword) return;
 
         setLoading(true);
 
-        const keyQuery = API_KEY ? `&key=${API_KEY}` : "";
         fetch(
-            `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(keyword)}&maxResults=20${keyQuery}`,
+            `https://www.googleapis.com/books/v1/volumes?q=${keyword}&maxResults=20&key=${API_KEY}`,
         )
             .then(res => res.json())
-            .then((json: ApiResponse) => setList(json.items ?? []))
+            .then((json: ApiResponse) => setList(json.items))
             .catch((err: unknown) => {
                 if (err instanceof Error) {
                     console.log(err.message);
