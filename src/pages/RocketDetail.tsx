@@ -1,7 +1,7 @@
 // URL 파라미터 id로 특정 로켓 발사 상세 정보를 조회해 출력
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import type { LaunchItem } from "./RocketList.tsx";
+import { type LaunchItem } from "../styles/rocket.ts";
 import {
     BackBtn,
     Badge,
