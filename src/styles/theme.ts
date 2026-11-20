@@ -1,18 +1,17 @@
-// 라이트 모드에서 사용할 색상 팔레트
+// 라이트 모드 색상 팔레트
 export const LightTheme = {
     color: {
-        background: "#f3f5f8", // 전체 페이지 배경색
-        surface: "#ffffff", // 카드, 헤더, 폼 등 떠 있는 표면 배경색
-        muted: "#eef1f6", // 버튼이나 보조 영역 배경색
-        text: "#111827", // 기본 본문 글자색
-        subText: "#6b7280", // 설명문 등 보조 글자색
-        border: "#e5e7eb", // 카드/헤더 테두리선 색
-        primary: "#1d6feb", // 포인트 컬러 (파란색)
+        background: "#f3f5f8", // 페이지 전체 바탕색
+        surface: "#ffffff", // 카드, 헤더, 패널 등 표면 색
+        muted: "#eef1f6", // 보조 배경 및 테이블 헤더 색
+        text: "#111827", // 기본 글자색
+        subText: "#6b7280", // 부가 설명 및 메타 글자색
+        border: "#e5e7eb", // 테두리선 색
+        primary: "#1d6feb", // 강조 포인트 색
     },
 };
 
-// 다크 모드에서 사용할 색상 팔레트
-// 라이트 모드와 동일한 키 이름을 써야 컴포넌트 코드를 바꾸지 않고 테마만 스위칭할 수 있음
+// 다크 모드 색상 팔레트 (LightTheme와 동일한 키 이름을 유지해야 테마 전환 시 코드 수정이 필요 없음)
 export const DarkTheme = {
     color: {
         background: "#111827",

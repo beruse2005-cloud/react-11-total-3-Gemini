@@ -1,8 +1,8 @@
-import { type ChangeEvent, type SubmitEvent, useState } from "react";
+// 할 일 등록, 완료 체크 토글, 항목 삭제 기능을 제공하는 투두 페이지
+import { type ChangeEvent, type FormEvent, useState } from "react";
 import styled from "styled-components";
 import { FaPlus, FaCheck, FaTrash } from "react-icons/fa";
 
-// 할 일 항목 하나의 타입
 type TodoItem = {
     id: number;
     text: string;
@@ -28,7 +28,6 @@ const Title = styled.h1`
     align-self: flex-start;
 `;
 
-// 입력창 + 추가(+) 버튼을 감싸는 카드형 폼
 const FormCard = styled.form`
     width: 100%;
     padding: 18px;
@@ -113,7 +112,6 @@ const CheckButton = styled.button<{ $completed: boolean }>`
     cursor: pointer;
 `;
 
-// 완료된 항목은 취소선과 흐린 글자색을 적용
 const TodoText = styled.span<{ $completed: boolean }>`
     font-size: 14px;
     word-break: break-word;
@@ -138,22 +136,20 @@ const DeleteButton = styled.button`
 
 function TodoPage() {
     const [todos, setTodos] = useState<TodoItem[]>([
-        // To do List 열었을 때 이것이 떠 있음 지우고 싶으면 지워도 됨
         { id: 1, text: "156", completed: false },
         { id: 2, text: "645267", completed: false },
     ]);
     const [inputValue, setInputValue] = useState<string>("");
 
-    // 입력창 타이핑 시 inputValue 상태 업데이트
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
     };
 
-    // 폼 제출(Enter 또는 + 버튼 클릭) 시 새 할 일 추가
-    const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
-        e.preventDefault(); // 페이지 새로고침 방지
+    // 공백을 제거한 뒤 빈 문자열이 아닐 때만 새 할 일 추가
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const trimmed = inputValue.trim();
-        if (!trimmed) return; // 공백만 입력된 경우 추가하지 않음
+        if (!trimmed) return;
 
         setTodos(prev => [
             ...prev,
@@ -163,17 +159,17 @@ function TodoPage() {
                 completed: false,
             },
         ]);
-        setInputValue(""); // 입력창 초기화
+        setInputValue("");
     };
 
-    // 선택한 id의 할 일만 completed 상태를 반전(true <-> false)
+    // 대상 id의 완료 여부만 반전
     const handleToggle = (id: number) => {
         setTodos(prev =>
             prev.map(item => (item.id === id ? { ...item, completed: !item.completed } : item)),
         );
     };
 
-    // 선택한 id의 할 일만 배열에서 제외
+    // 대상 id를 제외한 새 배열로 갱신
     const handleDelete = (id: number) => {
         setTodos(prev => prev.filter(item => item.id !== id));
     };

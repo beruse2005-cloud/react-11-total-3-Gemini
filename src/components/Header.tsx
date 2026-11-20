@@ -1,3 +1,4 @@
+// 상단 고정 헤더: 로고, 주요 메뉴 탭(NavLink), 로그인/회원가입 링크, 다크/라이트 전환 버튼
 import styled from "styled-components";
 import { NavLink, Link } from "react-router";
 import { useContext } from "react";
@@ -14,7 +15,6 @@ import {
     FaPaperPlane,
 } from "react-icons/fa";
 
-// 화면 상단에 고정되는 헤더 바
 const Head = styled.header`
     position: sticky;
     top: 0;
@@ -28,7 +28,6 @@ const Head = styled.header`
     border-bottom: 1px solid ${props => props.theme.color.border};
 `;
 
-// 좌측 브랜드 로고 ("My Universe")
 const BrandLink = styled(Link)`
     display: inline-flex;
     align-items: center;
@@ -38,7 +37,6 @@ const BrandLink = styled(Link)`
     color: ${props => props.theme.color.text};
 `;
 
-// 중앙 메뉴 링크 그룹
 const NavList = styled.nav`
     display: flex;
     align-items: center;
@@ -46,8 +44,7 @@ const NavList = styled.nav`
     overflow-x: auto;
 `;
 
-// NavLink는 현재 URL과 일치할 때 자동으로 "active" 클래스를 붙여 줌
-// &.active 스타일을 통해 현재 보고 있는 메뉴 탭을 파란색으로 강조 표시
+// NavLink는 현재 URL과 일치할 때 자동으로 active 클래스를 부여해 현재 탭을 강조 표시
 const NavItem = styled(NavLink)`
     display: inline-flex;
     align-items: center;
@@ -74,14 +71,12 @@ const NavItem = styled(NavLink)`
     }
 `;
 
-// 우측 영역 (로그인, 회원가입 및 테마 버튼 배치용)
 const RightGroup = styled.div`
     display: flex;
     align-items: center;
     gap: 12px;
 `;
 
-// 로그인, 회원가입 이동용 링크 스타일
 const ActionLink = styled(Link)`
     font-size: 13px;
     font-weight: 500;
@@ -93,7 +88,6 @@ const ActionLink = styled(Link)`
     }
 `;
 
-// 우측 다크/라이트 모드 전환 버튼
 const ThemeButton = styled.button`
     display: inline-flex;
     align-items: center;
@@ -109,9 +103,8 @@ const ThemeButton = styled.button`
 `;
 
 function Header() {
-    // ThemeContext에서 현재 테마와 토글 함수를 꺼내 옴
+    // ThemeContext에서 현재 테마와 toggleTheme 함수를 꺼냄
     const themeContext = useContext(ThemeContext);
-    // Provider 없이 렌더링된 경우를 대비한 방어 코드
     if (!themeContext) throw new Error("Provider 안에서 사용해주세요!");
 
     const isDark = themeContext.theme === "dark";
@@ -124,7 +117,7 @@ function Header() {
             </BrandLink>
 
             <NavList>
-                {/* end 속성을 넣어야 "/" 경로일 때만 Home이 active 되고, "/todo" 등 하위 경로에서는 꺼짐 */}
+                {/* end를 붙여 "/"일 때만 Home이 active 되고 "/todo" 등에서는 꺼지도록 함 */}
                 <NavItem to="/" end>
                     <FaHome size={13} />
                     <span>Home</span>

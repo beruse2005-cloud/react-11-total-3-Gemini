@@ -1,26 +1,53 @@
 src/
 ├── contexts/
 │   └── theme/
-│       └── ThemeContext.tsx      # 다크/라이트 테마 전역 상태 컨텍스트
+│       └── ThemeContext.tsx              # 라이트/다크 테마 전역 상태 Context
 ├── styles/
-│   ├── styled.d.ts             # styled-components의 theme 타입 확장 선언
-│   ├── theme.ts                # 라이트/다크 모드 색상 토큰 정의
-│   ├── GlobalStyle.ts          # 전체 페이지 공통 리셋 및 기본 스타일
-│   └── styles.tsx              # 여러 페이지에서 같이 쓰는 공용 레이아웃 스타일
+│   ├── styled.d.ts                     # DefaultTheme 타입 선언 (빈 인터페이스 경고 회피)
+│   ├── theme.ts                        # LightTheme / DarkTheme 색상 팔레트
+│   ├── GlobalStyle.ts                  # 전역 리셋 및 body 테마 색 적용
+│   └── styles.tsx                      # Main 및 공용 스타일 컴포넌트
+│   └── Post.ts                         # 게시판 게시글 타입 정의
 ├── components/
-│   ├── Header.tsx              # 상단 내비게이션 바 + 테마 전환 버튼
-│   └── Footer.tsx              # 하단 카피라이트 영역
+│   ├── Header.tsx                      # 상단 내비게이션 + 로그인/회원가입 + 테마 토글
+│   ├── Footer.tsx                      # 하단 카피라이트 푸터
+│   ├── SearchBar.tsx                   # 구글 북스 검색바 컴포넌트
+│   ├── SearchBar.ts                    # 구글 북스 검색바 스타일 (.ts)
+│   ├── MovieSearchBar.tsx              # 영화 검색바 컴포넌트
+│   ├── MovieSearchBar.ts               # 영화 검색바 스타일 (.ts)
+│   ├── MovieCard.tsx                   # 영화 검색 결과 카드 컴포넌트
+│   └── MovieCard.ts                    # 영화 검색 결과 카드 스타일 (.ts)
 ├── layouts/
-│   ├── MainLayout.tsx          # Header + 페이지(Outlet) + Footer 뼈대
-│   └── AuthLayout.tsx          # 로그인/회원가입 페이지용 중앙 정렬 뼈대
-├── pages/
-│   ├── Home.tsx                # My Project Dashboard (6개 포트폴리오 카드)
-│   ├── TodoPage.tsx            # 할 일 추가/완료 토글/삭제 페이지
-│   ├── CoinPage.tsx            # Top 50 코인 목록 + 상세 지표 페이지
+│   ├── MainLayout.tsx                  # Header + Outlet + Footer 레이아웃
+│   └── AuthLayout.tsx                  # 인증 페이지 중앙 정렬 레이아웃
+├── pages/ : ts는 styles 폴더에 따로 담음 MovieCard.ts 이것과 MovieSearchBar.ts 이것도
+│   ├── Home.tsx                        # My Project Dashboard (6개 포트폴리오 카드)
+│   ├── TodoPage.tsx                    # 할 일 추가/완료 토글/삭제 페이지
+│   ├── CoinPage.tsx                    # Top 50 코인 목록 + 4개 지표 상세 패널
+│   ├── RocketList.tsx                  # 스페이스X 로켓 발사 목록 (/rocket)
+│   ├── RocketList.ts                   # 로켓 발사 목록 스타일 (.ts)
+│   ├── RocketDetail.tsx                # 스페이스X 로켓 발사 상세 (/rocket/:id)
+│   ├── RocketDetail.ts                 # 로켓 발사 상세 스타일 (.ts)
+│   ├── BoardPage.tsx                   # 커뮤니티 게시판 목록 (/board)
+│   ├── BoardPage.ts                    # 커뮤니티 게시판 목록 스타일 (.ts)
+│   ├── BoardDetailPage.tsx             # 커뮤니티 게시글 상세 (/board/:id)
+│   ├── BoardDetailPage.ts              # 커뮤니티 게시글 상세 스타일 (.ts)
+│   ├── BookHomePage.tsx                # 구글 북스 검색 홈 (/book)
+│   ├── BookHomePage.ts                 # 구글 북스 검색 홈 스타일 (.ts)
+│   ├── BookSearchPage.tsx              # 구글 북스 검색 결과 (/book/search)
+│   ├── BookSearchPage.ts               # 구글 북스 검색 결과 스타일 (.ts)
+│   ├── BookDetailPage.tsx              # 구글 북스 도서 상세 (/book/detail/:id)
+│   ├── BookDetailPage.ts               # 구글 북스 도서 상세 스타일 (.ts)
+│   ├── MovieHomePage.tsx               # 영화 검색 홈 (/movie)
+│   ├── MovieHomePage.ts                # 영화 검색 홈 스타일 (.ts)
+│   ├── MovieSearchPage.tsx             # 영화 검색 결과 (/movie/search)
+│   ├── MovieSearchPage.ts              # 영화 검색 결과 스타일 (.ts)
+│   ├── MovieDetailPage.tsx             # 영화 상세 정보 (/movie/detail/:id)
+│   ├── MovieDetailPage.ts              # 영화 상세 스타일 (.ts)
 │   └── auth/
-│       ├── LogIn.tsx           # 로그인 페이지
-│       └── SignUp.tsx          # 회원가입 페이지
+│       ├── LogIn.tsx                   # 로그인 페이지 (/auth/login)
+│       └── SignUp.tsx                  # 회원가입 페이지 (/auth/signup)
 ├── router/
-│   └── AppRouter.tsx           # URL 경로와 페이지/레이아웃을 연결하는 라우터
-├── App.tsx                     # 테마 상태 관리 + Provider + RouterProvider 결합
-└── main.tsx                    # 실제 DOM(#root)에 React 앱을 마운트하는 진입점
+│   └── AppRouter.tsx                   # 전체 경로 및 레이아웃 라우팅 설정
+├── App.tsx                             # 테마 상태 관리 + Provider + RouterProvider 연결
+└── main.tsx                            # 실제 DOM(#root)에 앱을 마운트하는 진입점

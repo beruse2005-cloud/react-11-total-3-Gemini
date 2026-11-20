@@ -1,8 +1,8 @@
+// 코인 목록 선택 및 우측 상세 카드(현재 가격, 시가총액, 24시간 거래량, 순위) 표시
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaCoins } from "react-icons/fa";
 
-// 코인 시장 API 응답에서 사용할 필드 타입 정의
 type CoinMarket = {
     id: string;
     name: string;
@@ -14,7 +14,7 @@ type CoinMarket = {
     price_change_percentage_24h: number;
 };
 
-// API 호출 실패나 네트워크 제한 시 화면이 비지 않도록 보여줄 기본 데이터
+// 네트워크 오류나 API 제한 상황에서도 화면을 유지하기 위한 기본 코인 데이터
 const FALLBACK_COINS: CoinMarket[] = [
     {
         id: "bitcoin",
@@ -78,7 +78,6 @@ const FALLBACK_COINS: CoinMarket[] = [
     },
 ];
 
-// 좌측 코인 목록(300px) + 우측 상세 정보 패널(나머지 공간) 2단 레이아웃
 const PageWrap = styled.main`
     flex: 1;
     width: 100%;
@@ -120,7 +119,7 @@ const CoinList = styled.ul`
     overflow-y: auto;
 `;
 
-// $active처럼 앞에 $를 붙인 transient prop은 실제 DOM 속성으로 내려가지 않아 콘솔 경고를 피할 수 있음
+// $active: DOM 속성에 남지 않도록 접두사 $를 붙인 스타일 전용 prop
 const CoinRowButton = styled.button<{ $active: boolean }>`
     width: 100%;
     padding: 12px 18px;
@@ -160,7 +159,6 @@ const CoinPrice = styled.div`
     font-weight: 600;
 `;
 
-// 24시간 변동률이 양수면 초록색, 음수면 빨간색으로 표시
 const CoinChange = styled.div<{ $positive: boolean }>`
     font-size: 11px;
     font-weight: 600;
@@ -199,7 +197,6 @@ const DetailSymbol = styled.span`
     text-transform: uppercase;
 `;
 
-// 우측 상세 지표 4개 카드 그리드
 const StatGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -232,7 +229,6 @@ const StatValue = styled.div`
     word-break: break-word;
 `;
 
-// 가격 단위에 따라 소수점 자릿수를 다르게 포맷팅하는 헬퍼 함수
 function formatUsd(num: number): string {
     if (num >= 1) {
         return `$${num.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
@@ -240,22 +236,19 @@ function formatUsd(num: number): string {
     return `$${num.toLocaleString("en-US", { maximumFractionDigits: 4 })}`;
 }
 
-// 시가총액/거래량처럼 큰 금액은 정수로 반올림해 쉼표로 구분
 function formatIntegerUsd(num: number): string {
     return `$${Math.round(num).toLocaleString("en-US")}`;
 }
 
 function CoinPage() {
     const [coins, setCoins] = useState<CoinMarket[]>(FALLBACK_COINS);
-    // 현재 우측 상세 패널에 표시할 코인의 id (기본값: bitcoin)
     const [selectedId, setSelectedId] = useState<string>("bitcoin");
 
     useEffect(() => {
-        // 컴포넌트가 언마운트된 뒤 늦게 도착한 fetch 응답이 상태를 건드리지 않도록 막는 플래그
         let active = true;
 
         fetch(
-            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1",
+            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1"
         )
             .then(res => {
                 if (!res.ok) throw new Error("Failed to fetch coins");
@@ -277,9 +270,7 @@ function CoinPage() {
         };
     }, []);
 
-    // 선택된 코인 객체 찾기 (없으면 첫 번째 코인 사용)
     const selectedCoin = coins.find(coin => coin.id === selectedId) ?? coins[0];
-    // 원본 coins 배열을 직접 뒤집지 않도록 복사본([ ...coins ])을 만들어 역순 정렬
     const sidebarCoins = [...coins].reverse();
 
     return (
@@ -299,7 +290,8 @@ function CoinPage() {
                                 <CoinRowButton
                                     type="button"
                                     $active={coin.id === selectedCoin?.id}
-                                    onClick={() => setSelectedId(coin.id)}>
+                                    onClick={() => setSelectedId(coin.id)}
+                                >
                                     <div>
                                         <CoinName>{coin.name}</CoinName>
                                         <CoinSymbol>{coin.symbol}</CoinSymbol>

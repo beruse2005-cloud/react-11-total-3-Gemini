@@ -1,7 +1,7 @@
+// 로그인/회원가입 화면을 중앙에 배치하는 레이아웃
 import styled from "styled-components";
 import { Outlet } from "react-router";
 
-// 로그인/회원가입 폼을 화면 정중앙에 배치하기 위한 레이아웃
 const Wrap = styled.div`
     min-height: 100dvh;
     display: flex;

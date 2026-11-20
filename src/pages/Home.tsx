@@ -1,9 +1,9 @@
+// My Project Dashboard: 6개 포트폴리오 카드를 클릭해 각 앱 경로로 이동
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { FaCheckSquare, FaCoins, FaFilm, FaClipboardList, FaRocket, FaBook } from "react-icons/fa";
 import type { ReactNode } from "react";
 
-// 포트폴리오 카드 한 개의 데이터 구조
 type ProjectItem = {
     id: string;
     title: string;
@@ -23,7 +23,6 @@ const PageWrap = styled.main`
     gap: 24px;
 `;
 
-// 상단 "My Project Dashboard" 안내 카드
 const BannerCard = styled.section`
     padding: 28px 32px;
     border-radius: 12px;
@@ -44,7 +43,6 @@ const BannerSub = styled.p`
     color: ${props => props.theme.color.subText};
 `;
 
-// 데스크톱 3열, 태블릿 2열, 모바일 1열로 반응형 배치되는 카드 그리드
 const Grid = styled.section`
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -101,7 +99,6 @@ const CardDesc = styled.p`
     color: ${props => props.theme.color.subText};
 `;
 
-// 화면에 렌더링할 6개 프로젝트 카드 목록
 const PROJECTS: ProjectItem[] = [
     {
         id: "todo",
@@ -128,7 +125,7 @@ const PROJECTS: ProjectItem[] = [
         id: "board",
         title: "게시판",
         description: "기본적인 커뮤니티 게시판",
-        path: "/about",
+        path: "/board",
         icon: <FaClipboardList size={26} />,
     },
     {
@@ -148,7 +145,6 @@ const PROJECTS: ProjectItem[] = [
 ];
 
 function Home() {
-    // 클릭 시 다른 경로로 이동하기 위한 React Router 훅
     const navigate = useNavigate();
 
     return (

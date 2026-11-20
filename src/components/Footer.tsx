@@ -1,3 +1,4 @@
+// 화면 하단 푸터
 import styled from "styled-components";
 
 const Foot = styled.footer`
